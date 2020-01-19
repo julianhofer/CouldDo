@@ -31,7 +31,7 @@ public class CouldDo implements EntryPoint {
 	/**
 	 * Create a remote service proxy to talk to the server-side Greeting service.
 	 */
-	private final GreetingServiceAsync greetingService = GWT.create(GreetingService.class);
+	private final CouldDoServiceAsync greetingService = GWT.create(CouldDoService.class);
 
 	/**
 	 * This is the entry point method.

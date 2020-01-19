@@ -1,6 +1,6 @@
 package de.hdm.itprojekt.coulddo.server;
 
-import de.hdm.itprojekt.coulddo.client.GreetingService;
+import de.hdm.itprojekt.coulddo.client.CouldDoService;
 import de.hdm.itprojekt.coulddo.shared.FieldVerifier;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
@@ -8,7 +8,7 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
  * The server-side implementation of the RPC service.
  */
 @SuppressWarnings("serial")
-public class GreetingServiceImpl extends RemoteServiceServlet implements GreetingService {
+public class CouldDoServiceImpl extends RemoteServiceServlet implements CouldDoService {
 
 	public String greetServer(String input) throws IllegalArgumentException {
 		// Verify that the input is valid. 

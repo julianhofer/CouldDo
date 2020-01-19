@@ -7,13 +7,13 @@
 
   <!-- Servlets -->
   <servlet>
-    <servlet-name>greetServlet</servlet-name>
-    <servlet-class>de.hdm.itprojekt.coulddo.server.GreetingServiceImpl</servlet-class>
+    <servlet-name>CouldDoServiceImpl</servlet-name>
+    <servlet-class>de.hdm.itprojekt.coulddo.server.CouldDoServiceImpl</servlet-class>
   </servlet>
   
   <servlet-mapping>
-    <servlet-name>greetServlet</servlet-name>
-    <url-pattern>/coulddo/greet</url-pattern>
+    <servlet-name>CouldDoServiceImpl</servlet-name>
+    <url-pattern>/coulddo/coulddo</url-pattern>
   </servlet-mapping>
   
   <!-- Default page to serve -->
