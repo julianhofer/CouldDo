@@ -11,6 +11,10 @@ import de.hdm.itprojekt.coulddo.shared.DatabaseException;
 import de.hdm.itprojekt.coulddo.shared.bo.Category;
 import de.hdm.itprojekt.coulddo.shared.bo.Lists;
 import de.hdm.itprojekt.coulddo.shared.bo.Notes;
+import de.hdm.itprojektss19.team03.scart.server.ServersideSettings;
+import de.hdm.itprojektss19.team03.scart.server.db.DBConnection;
+import de.hdm.itprojektss19.team03.scart.server.db.Group;
+import de.hdm.itprojektss19.team03.scart.shared.bo.User;
 
 
 public class CatMapper {
@@ -76,6 +80,47 @@ public class CatMapper {
 		}
 		return category;
 	}
+	
+	
+	// ToDo DELETE OR UPDATE ???
+	public void deleteListFromCategory(Lists list, Category cat) throws DatabaseException {
+
+		Connection con = null;
+		PreparedStatement stmt = null;
+
+		String delete = "DELETE FROM categories WHERE catId=? AND listId=?";
+
+		try {
+			con = DBConnection.connection();
+			stmt = con.prepareStatement(delete);
+			stmt.setInt(1, cat.getId());
+			stmt.setInt(2, list.getId());
+			stmt.executeUpdate();
+		} catch (SQLException e2) {
+			throw new DatabaseException(e2);
+		}
+	}
+	
+	// ToDo DELETE OR UPDATE ???
+	public Category deleteNoteFromCategory(Notes note) throws DatabaseException {
+		Connection con = null;
+		PreparedStatement stmt = null;
+
+		String updateSQL = "UPDATE categories SET categoryName=? WHERE catId=?";
+
+		try {
+			con = DBConnection.connection();
+			stmt = con.prepareStatement(updateSQL);
+
+			stmt.setString(1, category.getCategoryName());
+			stmt.setInt(2, category.getId());
+
+			stmt.executeUpdate();
+		} catch (SQLException e2) {
+			throw new DatabaseException(e2);
+		}
+		return category;
+	}
 
 	public void delete(Category category) throws DatabaseException {
 		Connection con = null;
@@ -95,7 +140,7 @@ public class CatMapper {
 	}
 	
 	public Category getCategoryById(int catId) throws DatabaseException {
-		// DB-Verbindung herstellen
+		
 		Connection con = DBConnection.connection();
 
 		try {
@@ -184,8 +229,6 @@ public class CatMapper {
 		}
 	}
 	
-
-
 
 
 }

@@ -10,6 +10,7 @@ public class Notes extends BusinessObject implements Serializable{
 	private static final long serialVersionUID = 1L;
 	private String notes;
 	private int ownerId = 0;
+	private String noteName;
 	
 	public Notes() {
 		
@@ -33,6 +34,14 @@ public class Notes extends BusinessObject implements Serializable{
 	
 	public void setNotes (String notes) {
 		this.notes = notes;
+	}
+	
+	public String getNoteName() {
+		return null;
+	}
+	
+	public void setNoteName(String noteName) {
+		this.noteName= noteName;
 	}
 	
 }

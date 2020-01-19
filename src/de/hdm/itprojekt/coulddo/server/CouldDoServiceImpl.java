@@ -206,7 +206,7 @@ public class CouldDoServiceImpl extends RemoteServiceServlet implements CouldDoS
 	public void deleteListFromCategory(Lists list, Category cat) throws IllegalArgumentException {
 		try {
 
-			this.catMapper.update(cat);
+			this.catMapper.deleteListFromCategory(list, cat);
 
 		} catch (IllegalArgumentException | DatabaseException e) {
 			e.printStackTrace();
@@ -217,7 +217,7 @@ public class CouldDoServiceImpl extends RemoteServiceServlet implements CouldDoS
 	public void deleteNoteFromCategory(Notes note, Category cat) throws IllegalArgumentException {
 		try {
 
-			this.catMapper.update(note);
+			this.catMapper.update(note, cat);
 
 		} catch (IllegalArgumentException | DatabaseException e) {
 			e.printStackTrace();

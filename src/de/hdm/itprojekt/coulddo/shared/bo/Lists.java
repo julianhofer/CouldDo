@@ -9,6 +9,7 @@ public class Lists extends BusinessObject implements Serializable{
 	private static final long serialVersionUID = 1L;
 	private String entry;
 	private int ownerId = 0;
+	private String listName;
 
 	public Lists() {
 		
@@ -32,6 +33,14 @@ public class Lists extends BusinessObject implements Serializable{
 	
 	public void setLists (String entry) {
 		this.entry = entry;
+	}
+
+	public String getListName() {
+		return null;
+	}
+	
+	public void setListName(String listName) {
+		this.listName = listName;
 	}
 	
 }
