@@ -11,7 +11,6 @@ import de.hdm.itprojekt.coulddo.shared.bo.Category;
 import de.hdm.itprojekt.coulddo.shared.bo.Lists;
 import de.hdm.itprojekt.coulddo.shared.bo.Notes;
 import de.hdm.itprojekt.coulddo.shared.bo.User;
-import de.hdm.itprojektss19.team03.scart.shared.bo.GroceryList;
 
 import java.util.Vector;
 
@@ -173,7 +172,7 @@ public class CouldDoServiceImpl extends RemoteServiceServlet implements CouldDoS
 	public Category getCategoryById(int catId) throws IllegalArgumentException {
 		try {
 
-			return this.catMapper.findByCatId(catId);
+			return this.catMapper.getCategoryById(catId);
 
 		} catch (IllegalArgumentException | DatabaseException e) {
 			e.printStackTrace();
