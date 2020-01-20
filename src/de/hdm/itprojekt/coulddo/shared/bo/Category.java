@@ -10,8 +10,8 @@ public class Category extends BusinessObject implements IsSerializable {
 
 	private static final long serialVersionUID = 1L;
 	private String name = "";
-	private int noteId = 0;
-	private int listId = 0;
+	private int ownerId = 0;
+
 
 //METHODS====================================================================
 	
@@ -22,8 +22,6 @@ public class Category extends BusinessObject implements IsSerializable {
 	
 	public Category(String name, int noteId, int listId) {
 		setCategoryName(name);
-		this.listId = listId;
-		this.noteId = noteId;
 	}
 	
 	public String getCategoryName() {
@@ -34,28 +32,16 @@ public class Category extends BusinessObject implements IsSerializable {
 		this.name = name;
 	}
 	
-	
-	public int getNoteId() {
-		return noteId;
+	public int getOwnerId() {
+		return ownerId;
 	}
-	
-	public void setNoteId(int noteId) {
-		this.noteId = noteId;
+
+	public void setOwnerId(int ownerId) {
+		this.ownerId = ownerId;
 	}
-	
-	
-	public int getListId() {
-		return listId;
-	}
-	
-	public void setListId(int listId) {
-		this.listId = listId;
-	}
-	
-	
+
 	public int getId() {
 		return this.id;
 	}
 	
-
 }

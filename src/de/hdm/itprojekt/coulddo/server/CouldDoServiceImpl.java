@@ -21,22 +21,22 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
  */
 @SuppressWarnings("serial")
 public class CouldDoServiceImpl extends RemoteServiceServlet implements CouldDoService {
-	
+
 	public CouldDoServiceImpl() throws IllegalArgumentException {
-		
+
 	}
 
 	public String greetServer(String name) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
+
 	/**
 	 * Serialisierung
 	 */
-	
+
 	private static final long serialVersionUID = 1L;
-	
+
 	private UserMapper userMapper = null;
 	private NotesMapper notesMapper = null;
 	private ListsMapper listsMapper = null;
@@ -45,7 +45,7 @@ public class CouldDoServiceImpl extends RemoteServiceServlet implements CouldDoS
 	/**
 	 * Initialization
 	 */
-	
+
 	public void init() throws IllegalArgumentException {
 
 		this.userMapper = UserMapper.userMapper();
@@ -70,15 +70,16 @@ public class CouldDoServiceImpl extends RemoteServiceServlet implements CouldDoS
 			return null;
 		}
 	}
-	
-	public User createUser(String emailAdress) throws IllegalArgumentException, DatabaseException {
+
+	public User createUser(String emailAdress, String userName) throws IllegalArgumentException, DatabaseException {
 
 		User user = new User();
 		user.setEmail(emailAdress);
 		user.setId(1);
+		user.setUsername(userName);
 		return this.userMapper.insert(user);
 	}
-	
+
 	public void deleteUser(User u) throws IllegalArgumentException {
 
 		try {
@@ -157,7 +158,7 @@ public class CouldDoServiceImpl extends RemoteServiceServlet implements CouldDoS
 			throw new IllegalArgumentException(e);
 		}
 	}
-	
+
 	public void deleteCategory(Category c) throws IllegalArgumentException {
 		try {
 
@@ -168,7 +169,7 @@ public class CouldDoServiceImpl extends RemoteServiceServlet implements CouldDoS
 			throw new IllegalArgumentException(e);
 		}
 	}
-	
+
 	public Category getCategoryById(int catId) throws IllegalArgumentException {
 		try {
 
@@ -180,56 +181,47 @@ public class CouldDoServiceImpl extends RemoteServiceServlet implements CouldDoS
 		}
 
 	}
-	
-	public Category addNoteToCategory(Notes note, Category cat) throws IllegalArgumentException {
-		try {
 
-			return this.catMapper.addNoteToCategory(note, cat);
-
-		} catch (IllegalArgumentException | DatabaseException e) {
-			e.printStackTrace();
-			throw new IllegalArgumentException(e);
-		}
-	}
-	
-	public Category addListToCategory(Lists list, Category cat) throws IllegalArgumentException {
-		try {
-
-			return this.catMapper.addListToCategory(list, cat);
-
-		} catch (IllegalArgumentException | DatabaseException e) {
-			e.printStackTrace();
-			throw new IllegalArgumentException(e);
-		}
-	}
-	
-	public void deleteListFromCategory(Lists list, Category cat) throws IllegalArgumentException {
-		try {
-
-			this.catMapper.deleteListFromCategory(list, cat);
-
-		} catch (IllegalArgumentException | DatabaseException e) {
-			e.printStackTrace();
-			throw new IllegalArgumentException(e);
-		}
-	}
-	
-	public void deleteNoteFromCategory(Notes note, Category cat) throws IllegalArgumentException {
-		try {
-
-			this.catMapper.update(note, cat);
-
-		} catch (IllegalArgumentException | DatabaseException e) {
-			e.printStackTrace();
-			throw new IllegalArgumentException(e);
-		}
-	}
-	
 	public Vector<Category> findAllCategories() throws IllegalArgumentException, DatabaseException {
 		return catMapper.findAll();
 	}
 
-	
+	/*
+	 * public Category addNoteToCategory(Notes note, Category cat) throws
+	 * IllegalArgumentException { try {
+	 * 
+	 * return this.catMapper.addNoteToCategory(note, cat);
+	 * 
+	 * } catch (IllegalArgumentException | DatabaseException e) {
+	 * e.printStackTrace(); throw new IllegalArgumentException(e); } }
+	 * 
+	 * public Category addListToCategory(Lists list, Category cat) throws
+	 * IllegalArgumentException { try {
+	 * 
+	 * return this.catMapper.addListToCategory(list, cat);
+	 * 
+	 * } catch (IllegalArgumentException | DatabaseException e) {
+	 * e.printStackTrace(); throw new IllegalArgumentException(e); } }
+	 */
+
+	/*
+	 * public void deleteListFromCategory(Lists list, Category cat) throws
+	 * IllegalArgumentException { try {
+	 * 
+	 * this.catMapper.deleteListFromCategory(list, cat);
+	 * 
+	 * } catch (IllegalArgumentException | DatabaseException e) {
+	 * e.printStackTrace(); throw new IllegalArgumentException(e); } }
+	 * 
+	 * public void deleteNoteFromCategory(Notes note, Category cat) throws
+	 * IllegalArgumentException { try {
+	 * 
+	 * this.catMapper.update(note, cat);
+	 * 
+	 * } catch (IllegalArgumentException | DatabaseException e) {
+	 * e.printStackTrace(); throw new IllegalArgumentException(e); } }
+	 */
+
 	/*
 	 * public Vector<Category> findAllCategoriesByNoteId(int id) throws
 	 * IllegalArgumentException { try { return
@@ -245,8 +237,7 @@ public class CouldDoServiceImpl extends RemoteServiceServlet implements CouldDoS
 	 * } catch (IllegalArgumentException | DatabaseException e) {
 	 * e.printStackTrace(); throw new IllegalArgumentException(e); } }
 	 */
-	
-	
+
 	/**
 	 * NOTES
 	 * 
@@ -254,7 +245,7 @@ public class CouldDoServiceImpl extends RemoteServiceServlet implements CouldDoS
 	 * @return
 	 * @throws IllegalArgumentException
 	 */
-	
+
 	public Notes createNote(Notes n) throws IllegalArgumentException {
 		try {
 
@@ -265,7 +256,7 @@ public class CouldDoServiceImpl extends RemoteServiceServlet implements CouldDoS
 			throw new IllegalArgumentException(e);
 		}
 	}
-	
+
 	public Notes saveNote(Notes n) throws IllegalArgumentException {
 		try {
 
@@ -277,7 +268,7 @@ public class CouldDoServiceImpl extends RemoteServiceServlet implements CouldDoS
 		}
 		return n;
 	}
-	
+
 	public Notes deleteNote(Notes n) throws IllegalArgumentException {
 		try {
 
@@ -288,7 +279,7 @@ public class CouldDoServiceImpl extends RemoteServiceServlet implements CouldDoS
 		}
 		return n;
 	}
-	
+
 	public Notes getNoteById(int noteId) throws IllegalArgumentException {
 		try {
 
@@ -299,38 +290,47 @@ public class CouldDoServiceImpl extends RemoteServiceServlet implements CouldDoS
 			throw new IllegalArgumentException(e);
 		}
 	}
-	public Vector<Notes> getAllNotesByCatId(int id) throws IllegalArgumentException {
-		try {
-			return notesMapper.getAllNotesByCatId(id);
-		} catch (IllegalArgumentException | DatabaseException e) {
-			e.printStackTrace();
-			throw new IllegalArgumentException(e);
-		}
-	}
-	
+
+	/*
+	 * public Vector<Notes> getAllNotesByCatId(int catId) throws
+	 * IllegalArgumentException { try { return
+	 * notesMapper.getAllNotesByCatId(catId); } catch (IllegalArgumentException |
+	 * DatabaseException e) { e.printStackTrace(); throw new
+	 * IllegalArgumentException(e); } }
+	 */
+
 	public Vector<Notes> findAllNotes() throws IllegalArgumentException {
 		try {
-			return notesMapper.findAll();
+			return notesMapper.findAllNotes();
 		} catch (IllegalArgumentException | DatabaseException e) {
 			e.printStackTrace();
 			throw new IllegalArgumentException(e);
 		}
 	}
-	
-	public Vector<Notes> findAllNotesByUserId(int userId) throws IllegalArgumentException {
+
+	/*
+	 * public Vector<Notes> findAllNotesByUserId(int ownerId) throws
+	 * IllegalArgumentException { try { return
+	 * notesMapper.findAllNotesByUserId(ownerId);
+	 * 
+	 * } catch (IllegalArgumentException | DatabaseException e) {
+	 * e.printStackTrace(); throw new IllegalArgumentException(e); } }
+	 */
+
+	public Vector<Notes> findAllNotesByUserIdAndCatId(int ownerId, int catId) throws IllegalArgumentException {
 		try {
-			return notesMapper.findAllNotesByUserId(userId);
+			return notesMapper.findAllNotesByUserIdAndCatId(ownerId, catId);
 
 		} catch (IllegalArgumentException | DatabaseException e) {
 			e.printStackTrace();
 			throw new IllegalArgumentException(e);
 		}
 	}
-	
+
 	/**
 	 * LISTS
 	 */
-	
+
 	public Lists createList(Lists l) throws IllegalArgumentException {
 		try {
 
@@ -341,7 +341,7 @@ public class CouldDoServiceImpl extends RemoteServiceServlet implements CouldDoS
 			throw new IllegalArgumentException(e);
 		}
 	}
-	
+
 	public Lists saveList(Lists l) throws IllegalArgumentException {
 		try {
 
@@ -353,7 +353,7 @@ public class CouldDoServiceImpl extends RemoteServiceServlet implements CouldDoS
 		}
 		return l;
 	}
-	
+
 	public Lists deleteList(Lists l) throws IllegalArgumentException {
 		try {
 
@@ -364,7 +364,7 @@ public class CouldDoServiceImpl extends RemoteServiceServlet implements CouldDoS
 		}
 		return l;
 	}
-	
+
 	public Lists getListById(int listId) throws IllegalArgumentException {
 		try {
 
@@ -375,35 +375,41 @@ public class CouldDoServiceImpl extends RemoteServiceServlet implements CouldDoS
 			throw new IllegalArgumentException(e);
 		}
 	}
-	public Vector<Lists> getAllListsByCatId(int id) throws IllegalArgumentException {
-		try {
-			return listsMapper.getAllListsByCatId(id);
-		} catch (IllegalArgumentException | DatabaseException e) {
-			e.printStackTrace();
-			throw new IllegalArgumentException(e);
-		}
-	}
-	
+
+	/*
+	 * public Vector<Lists> getAllListsByCatId(int catId) throws
+	 * IllegalArgumentException { try { return
+	 * listsMapper.getAllListsByCatId(catId); } catch (IllegalArgumentException |
+	 * DatabaseException e) { e.printStackTrace(); throw new
+	 * IllegalArgumentException(e); } }
+	 */
+
 	public Vector<Lists> findAllLists() throws IllegalArgumentException {
 		try {
-			return listsMapper.findAll();
+			return listsMapper.findAllLists();
 		} catch (IllegalArgumentException | DatabaseException e) {
 			e.printStackTrace();
 			throw new IllegalArgumentException(e);
 		}
 	}
-	
-	public Vector<Lists> findAllListsByUserId(int userId) throws IllegalArgumentException {
+
+	/*
+	 * public Vector<Lists> findAllListsByUserId(int ownerId) throws
+	 * IllegalArgumentException { try { return
+	 * listsMapper.findAllListsByUserId(ownerId);
+	 * 
+	 * } catch (IllegalArgumentException | DatabaseException e) {
+	 * e.printStackTrace(); throw new IllegalArgumentException(e); } }
+	 */
+
+	public Vector<Lists> findAllListsByUserIdAndCatId(int ownerId, int catId) throws IllegalArgumentException {
 		try {
-			return listsMapper.findAllListsByUserId(userId);
+			return listsMapper.findAllListsByUserIdAndCatId(ownerId, catId);
 
 		} catch (IllegalArgumentException | DatabaseException e) {
 			e.printStackTrace();
 			throw new IllegalArgumentException(e);
 		}
 	}
-	
 
-
-	
 }
