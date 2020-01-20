@@ -6,7 +6,6 @@ import de.hdm.itprojekt.coulddo.server.db.ListsMapper;
 import de.hdm.itprojekt.coulddo.server.db.NotesMapper;
 import de.hdm.itprojekt.coulddo.server.db.UserMapper;
 import de.hdm.itprojekt.coulddo.shared.DatabaseException;
-import de.hdm.itprojekt.coulddo.shared.FieldVerifier;
 import de.hdm.itprojekt.coulddo.shared.bo.Category;
 import de.hdm.itprojekt.coulddo.shared.bo.Lists;
 import de.hdm.itprojekt.coulddo.shared.bo.Notes;
@@ -26,10 +25,6 @@ public class CouldDoServiceImpl extends RemoteServiceServlet implements CouldDoS
 
 	}
 
-	public String greetServer(String name) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	/**
 	 * Serialisierung
@@ -137,7 +132,7 @@ public class CouldDoServiceImpl extends RemoteServiceServlet implements CouldDoS
 	 * CATEGORY
 	 * 
 	 */
-	public Category createGroup(Category c) throws IllegalArgumentException {
+	public Category createCategory(Category c) throws IllegalArgumentException {
 		try {
 			return this.catMapper.insert(c);
 
@@ -411,5 +406,6 @@ public class CouldDoServiceImpl extends RemoteServiceServlet implements CouldDoS
 			throw new IllegalArgumentException(e);
 		}
 	}
+
 
 }
