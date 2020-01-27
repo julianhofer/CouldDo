@@ -23,7 +23,7 @@ public interface CouldDoService extends RemoteService {
 	
 	public User createUser(User u) throws IllegalArgumentException, Exception;
 
-	public User createUser(String emailAdress, String userName) throws IllegalArgumentException, DatabaseException;
+	public User createsUser(String emailAdress, String userName) throws IllegalArgumentException, DatabaseException;
 
 	public void deleteUser(User u) throws IllegalArgumentException, DatabaseException;
 
@@ -44,7 +44,7 @@ public interface CouldDoService extends RemoteService {
 	
 	public void deleteCategory(Category c) throws IllegalArgumentException, DatabaseException;
 	
-	public Category getCategoryById(int catId) throws IllegalArgumentException, DatabaseException;
+	public Vector<Category> getCategoryByUserId(int ownerId) throws IllegalArgumentException, DatabaseException;
 	
 	public Vector<Category> findAllCategories() throws IllegalArgumentException, DatabaseException;
 	

@@ -66,7 +66,7 @@ public class CouldDoServiceImpl extends RemoteServiceServlet implements CouldDoS
 		}
 	}
 
-	public User createUser(String emailAdress, String userName) throws IllegalArgumentException, DatabaseException {
+	public User createsUser(String emailAdress, String userName) throws IllegalArgumentException, DatabaseException {
 
 		User user = new User();
 		user.setEmail(emailAdress);
@@ -165,10 +165,10 @@ public class CouldDoServiceImpl extends RemoteServiceServlet implements CouldDoS
 		}
 	}
 
-	public Category getCategoryById(int catId) throws IllegalArgumentException {
+	public Vector<Category> getCategoryByUserId(int ownerId) throws IllegalArgumentException {
 		try {
 
-			return this.catMapper.getCategoryById(catId);
+			return this.catMapper.getCategoryByUserId(ownerId);
 
 		} catch (IllegalArgumentException | DatabaseException e) {
 			e.printStackTrace();
@@ -406,6 +406,7 @@ public class CouldDoServiceImpl extends RemoteServiceServlet implements CouldDoS
 			throw new IllegalArgumentException(e);
 		}
 	}
+
 
 
 }

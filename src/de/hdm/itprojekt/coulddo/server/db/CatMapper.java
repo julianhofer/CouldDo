@@ -35,7 +35,7 @@ public class CatMapper {
 		PreparedStatement stmt = null;
 
 		String maxId = "SELECT MAX(catId) AS maxid FROM categories";
-		String insert = "INSERT INTO categories (catId, categoryName) VALUES (?,?)";
+		String insert = "INSERT INTO categories (catId, categoryName, ownerId) VALUES (?,?,?)";
 
 		try {
 			con = DBConnection.connection();
@@ -48,6 +48,7 @@ public class CatMapper {
 			stmt = con.prepareStatement(insert);
 			stmt.setInt(1, category.getId());
 			stmt.setString(2, category.getCategoryName());
+			stmt.setInt(3, category.getOwnerId());
 			stmt.executeUpdate();
 
 		} catch (SQLException e2) {
@@ -125,24 +126,25 @@ public class CatMapper {
 		}
 	}
 	
-	public Category getCategoryById(int catId) throws DatabaseException {
+	public Vector<Category> getCategoryByUserId(int ownerId) throws DatabaseException {
 		
 		Connection con = DBConnection.connection();
+		Vector<Category> categories = new Vector<Category>();
 
 		try {
 			Statement statement = con.createStatement();
-			ResultSet rs = statement.executeQuery("SELECT * FROM categories WHERE catId=" + catId);
+			ResultSet rs = statement.executeQuery("SELECT * FROM categories WHERE ownerId=" + ownerId);
 			
 			while (rs.next()) {
 				Category category = new Category();
-				category.setId(rs.getInt("catId"));
+				category.setId(rs.getInt("ownerId"));
 				category.setCategoryName(rs.getString("categoryName"));
-				return category;
+				categories.addElement(category);
 			}
 		} catch (SQLException e2) {
 			throw new DatabaseException(e2);
 		}
-		return null;
+		return categories;
 	}
 	
 	public Vector<Category> findAll() throws DatabaseException {
@@ -156,8 +158,8 @@ public class CatMapper {
 
 			while (rs.next()) {
 				Category category = new Category();
-				category.setId(rs.getInt("groupId"));
-				category.setCategoryName(rs.getString("groupName"));
+				category.setId(rs.getInt("catId"));
+				category.setCategoryName(rs.getString("categoryName"));
 
 				categories.addElement(category);
 			}

@@ -21,7 +21,7 @@ public interface CouldDoServiceAsync {
 
 	void createUser(User u, AsyncCallback<User> callback);
 
-	void createUser(String emailAdress, String userName, AsyncCallback<User> callback);
+    void createsUser(String emailAdress, String userName, AsyncCallback<User> callback);
 
 	void deleteUser(User u, AsyncCallback<Void> callback);
 
@@ -42,7 +42,7 @@ public interface CouldDoServiceAsync {
 
 	void deleteCategory(Category c, AsyncCallback<Void> callback);
 
-	void getCategoryById(int catId, AsyncCallback<Category> callback);
+	void getCategoryByUserId(int ownerId, AsyncCallback<Vector<Category>> callback);
 
 	void findAllCategories(AsyncCallback<Vector<Category>> callback);
 	

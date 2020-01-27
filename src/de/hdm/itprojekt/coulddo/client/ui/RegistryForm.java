@@ -2,6 +2,7 @@ package de.hdm.itprojekt.coulddo.client.ui;
 
 import java.util.Vector;
 
+import com.gargoylesoftware.htmlunit.javascript.host.Console;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
@@ -9,17 +10,20 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 import de.hdm.itprojekt.coulddo.client.ClientsideSettings;
 import de.hdm.itprojekt.coulddo.client.CouldDoService;
 import de.hdm.itprojekt.coulddo.client.CouldDoServiceAsync;
+import de.hdm.itprojekt.coulddo.client.ui.ContentForm;
 import de.hdm.itprojekt.coulddo.shared.bo.Category;
 import de.hdm.itprojekt.coulddo.shared.bo.Lists;
 import de.hdm.itprojekt.coulddo.shared.bo.User;
-
 
 /**
  * Die RegistryForm wird zum Login aufgerufen, wenn der User die Applikation zum
@@ -29,18 +33,19 @@ import de.hdm.itprojekt.coulddo.shared.bo.User;
  */
 public class RegistryForm extends VerticalPanel {
 
-	
 	private User user = new User();
-	private Category category = new Category();
+	private Category cat = new Category();
+	private ScrollPanel navigationPanel = new ScrollPanel();
+	private HorizontalPanel contentPanel = new HorizontalPanel();
+	private ContentForm contentForm;
 	private CouldDoServiceAsync couldDoService = ClientsideSettings.getEditor();
-	private Anchor logout = new Anchor();
 	private FlowPanel buttons = new FlowPanel();
-	private Label welcome = new Label("Wie es scheint bist du neu hier bei SCart, herzlich Wilkommen!");
-	private Label infoLabel = new Label("Wähle einen Nutzernamen");
+	private Label welcome = new Label("Hier kannst du dich anmelden");
+	private Label nameLabel = new Label("Dein Nutzername");
+	private Label emailLabel = new Label("Deine Email");
 	private TextBox nameTextbox = new TextBox();
 	private TextBox emailTextbox = new TextBox();
-	private Button save = new Button("Registrieren");
-	private Button logoutButton = new Button("Zurück zum Login");
+	private Button save = new Button("Anmelden");
 
 	protected void onLoad() {
 	}
@@ -48,33 +53,29 @@ public class RegistryForm extends VerticalPanel {
 	/**
 	 * Konstruktor fuer die RegistryForm-Klasse.
 	 * 
-	 * @param logoutLink Link für den Logout
 	 * @param email Attribut Email des Users
 	 */
-	public RegistryForm(String email) {
-		user.setEmail(email);
-		//logout.setHref(logoutLink);
-		
-		  welcome.setStyleName("h1"); infoLabel.setStyleName("text");
-		  nameTextbox.setStyleName("textbox-big"); emailTextbox.setValue(email);
-		  emailTextbox.setReadOnly(true); emailTextbox.setStyleName("textbox-big");
-		  save.setStyleName("button"); logoutButton.setStyleName("button");
-		  save.addClickHandler(saveClickHandler);
-		  
-		  logout.getElement().appendChild(logoutButton.getElement());
-		  buttons.add(logout); buttons.add(save);
-		  
-		  this.setVerticalAlignment(ALIGN_TOP);
-		  this.setHorizontalAlignment(ALIGN_CENTER); this.add(welcome);
-		  this.add(infoLabel); this.add(nameTextbox); this.add(emailTextbox);
-		  this.add(buttons);
-		  
-		  if (checkEmail(user.getEmail()) == false) {
-		  Window.alert("E-Mail ist ungültig!"); } ;
-		 
-	}
+	public RegistryForm() {
 
-	
+		welcome.setStyleName("h1");
+		nameLabel.setStyleName("text");
+		nameTextbox.setStyleName("textbox-big");
+		emailLabel.setStyleName("text");
+		emailTextbox.setStyleName("textbox-big");
+		save.setStyleName("button");
+		save.addClickHandler(saveClickHandler);
+		buttons.add(save);
+
+		this.setVerticalAlignment(ALIGN_TOP);
+		this.setHorizontalAlignment(ALIGN_CENTER);
+		this.add(welcome);
+		this.add(nameLabel);
+		this.add(nameTextbox);
+		this.add(emailLabel);
+		this.add(emailTextbox);
+		this.add(buttons);
+
+	}
 
 	/**
 	 * Methode zum anlegen eines Neuen Users in der DB
@@ -84,21 +85,55 @@ public class RegistryForm extends VerticalPanel {
 	public void saveUser(User u) {
 
 		u.setUsername(nameTextbox.getValue());
-		couldDoService.createUser(u, new AsyncCallback<User>() {
+		u.setEmail(emailTextbox.getValue());
+
+		couldDoService.getUserByEmail(u.getEmail(), new AsyncCallback<User>() {
+
+			public void onFailure(Throwable caught) {
+
+				if (checkEmail(user.getEmail()) == false) {
+					Window.alert("E-Mail ist ungültig!");
+				}
+
+				couldDoService.createUser(u, new AsyncCallback<User>() {
+
+					public void onSuccess(User user) {
+						Category c = new Category("Neue Kategorie", user.getId());
+						couldDoService.createCategory(c, createCategoryCallback);
+						loadPage(user);
+					}
+
+					public void onFailure(Throwable e) {
+						Window.alert("Registrierung fehlgeschlagen " + e.getMessage());
+
+					}
+				});
+
+			}
 
 			public void onSuccess(User user) {
-				couldDoService.getUserByEmail(user.getEmail(), userCallback);
-			}
-
-			public void onFailure(Throwable e) {
-				Window.alert("Registrierung fehlgeschlagen " + e.getMessage());
+				loadPage(user);
+				
+				Window.alert("Du wirst mit deiner bestehenden Email Adresse angemeldet");
 
 			}
+
 		});
+
 	};
-
-	public void createCategory(User u) {
-
+	
+	public void loadPage(User user) {		
+		
+		ContentForm contentForm = new ContentForm(user);
+		contentForm.addStyleName("navigation");
+		contentForm.setHeight("100%");
+		navigationPanel.add(contentForm);
+		
+		RootPanel.get("navigation").clear();
+		RootPanel.get("navigation").add(navigationPanel);
+		RootPanel.get("content").clear();
+		RootPanel.get("content").add(contentPanel);
+		
 	}
 
 	/**
@@ -144,38 +179,9 @@ public class RegistryForm extends VerticalPanel {
 			Window.alert("Failed to create new Category: " + t);
 		}
 
-		public void onSuccess(Category g) {
-			category = g;
-			Window.alert("Eine " + g + " wurde erfolgreich erstellt");
-		}
-	};
-
-	/**
-	 * Callback-Methode um eine neue Liste zu erstellen
-	 * 
-	 */
-	AsyncCallback<Lists> listCallback = new AsyncCallback<Lists>() {
-
-		public void onFailure(Throwable t) {
-			Window.alert("Failed to make new GroceryList: " + t);
-		}
-
-		public void onSuccess(Lists l) {
-			Window.Location.reload();
-		}
-	};
-
-
-	AsyncCallback<User> userCallback = new AsyncCallback<User>() {
-
-		public void onFailure(Throwable t) {
-			Window.alert("Failed to get user object: " + t);
-		}
-
-		public void onSuccess(User u) {
-			Category g = new Category("Neue Kategorie", u.getId());
-			user = u;
-			couldDoService.createCategory(g, createCategoryCallback);
+		public void onSuccess(Category c) {
+			cat = c;
+			Window.alert("Eine " + c.getCategoryName() + " wurde erfolgreich erstellt");
 		}
 	};
 
@@ -189,7 +195,7 @@ public class RegistryForm extends VerticalPanel {
 			if (checkName(nameTextbox.getValue())) {
 				saveUser(user);
 			} else {
-				infoLabel.setText("Der Name muss aus 3 bis 10 Buchstaben bestehen");
+				nameLabel.setText("Der Name muss aus 3 bis 10 Buchstaben bestehen");
 			}
 		}
 	};

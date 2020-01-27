@@ -22,6 +22,7 @@ public class Category extends BusinessObject implements IsSerializable {
 	
 	public Category(String name, int ownerId) {
 		setCategoryName(name);
+		setOwnerId(ownerId);
 	}
 	
 	public String getCategoryName() {
