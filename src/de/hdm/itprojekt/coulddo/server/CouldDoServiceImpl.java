@@ -66,7 +66,7 @@ public class CouldDoServiceImpl extends RemoteServiceServlet implements CouldDoS
 		}
 	}
 
-	public User createUser(String emailAdress, String userName) throws IllegalArgumentException, DatabaseException {
+	public User createsUser(String emailAdress, String userName) throws IllegalArgumentException, DatabaseException {
 
 		User user = new User();
 		user.setEmail(emailAdress);
@@ -165,10 +165,10 @@ public class CouldDoServiceImpl extends RemoteServiceServlet implements CouldDoS
 		}
 	}
 
-	public Category getCategoryById(int catId) throws IllegalArgumentException {
+	public Vector<Category> getCategoryByUserId(int ownerId) throws IllegalArgumentException {
 		try {
 
-			return this.catMapper.getCategoryById(catId);
+			return this.catMapper.getCategoryByUserId(ownerId);
 
 		} catch (IllegalArgumentException | DatabaseException e) {
 			e.printStackTrace();
@@ -312,9 +312,13 @@ public class CouldDoServiceImpl extends RemoteServiceServlet implements CouldDoS
 	 * e.printStackTrace(); throw new IllegalArgumentException(e); } }
 	 */
 
-	public Vector<Notes> findAllNotesByUserIdAndCatId(int ownerId, int catId) throws IllegalArgumentException {
+	public Vector<Notes> findAllNotesByUserIdAndCatVector(int ownerId, Vector<Category> cat) throws IllegalArgumentException {
 		try {
-			return notesMapper.findAllNotesByUserIdAndCatId(ownerId, catId);
+			Vector<Notes> tempNotes = new Vector<Notes>();
+			for (int i = 0; i < cat.size(); i++) {
+				tempNotes.addAll(notesMapper.findAllNotesByUserIdAndCatId(ownerId, cat.elementAt(i).getId()));
+			}
+			return tempNotes;
 
 		} catch (IllegalArgumentException | DatabaseException e) {
 			e.printStackTrace();
@@ -397,15 +401,20 @@ public class CouldDoServiceImpl extends RemoteServiceServlet implements CouldDoS
 	 * e.printStackTrace(); throw new IllegalArgumentException(e); } }
 	 */
 
-	public Vector<Lists> findAllListsByUserIdAndCatId(int ownerId, int catId) throws IllegalArgumentException {
+	public Vector<Lists> findAllListsByUserIdAndCatVector(int ownerId, Vector<Category> cat) throws IllegalArgumentException {
 		try {
-			return listsMapper.findAllListsByUserIdAndCatId(ownerId, catId);
+			Vector<Lists> tempLists = new Vector<Lists>();
+			for (int i = 0; i < cat.size(); i++) {
+				tempLists.addAll(listsMapper.findAllListsByUserIdAndCatId(ownerId, cat.elementAt(i).getId()));
+			}
+			return tempLists;
 
 		} catch (IllegalArgumentException | DatabaseException e) {
 			e.printStackTrace();
 			throw new IllegalArgumentException(e);
 		}
 	}
+
 
 
 }

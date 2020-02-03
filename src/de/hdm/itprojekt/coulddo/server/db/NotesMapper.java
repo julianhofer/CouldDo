@@ -33,7 +33,7 @@ public class NotesMapper {
 
 		String maxId = "SELECT MAX(noteId) AS maxid FROM notes";
 
-		String insert = "INSERT INTO notes (noteId, noteName, notes, ownerId, catId) VALUES (?,?,?,?,?)";
+		String insert = "INSERT INTO notes (noteId, noteName, notes, ownerId, catId, categoryName) VALUES (?,?,?,?,?,?)";
 
 		try {
 			con = DBConnection.connection();
@@ -51,6 +51,7 @@ public class NotesMapper {
 			stmt.setString(3, note.getNotes());
 			stmt.setInt(4, note.getOwnerId());
 			stmt.setInt(5, note.getCatId());
+			stmt.setString(6, note.getCategoryName());
 
 			stmt.executeUpdate();
 
@@ -151,7 +152,7 @@ public class NotesMapper {
 		PreparedStatement stmt = null;
 
 		// SQL-Anweisung zum auslesen der Tupel aus der DB
-		String selectByKey = "SELECT * FROM notes WHERE ownerId= " + ownerId + "AND catId= " + catId;
+		String selectByKey = "SELECT * FROM notes WHERE ownerId= " + ownerId + " AND catId= " + catId;
 
 		Vector<Notes> notes = new Vector<Notes>();
 

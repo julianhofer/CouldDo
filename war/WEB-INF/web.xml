@@ -13,7 +13,7 @@
   
   <servlet-mapping>
     <servlet-name>CouldDoServiceImpl</servlet-name>
-    <url-pattern>/coulddo/coulddo</url-pattern>
+    <url-pattern>/coulddo/coulddoservice</url-pattern>
   </servlet-mapping>
   
   <!-- Default page to serve -->

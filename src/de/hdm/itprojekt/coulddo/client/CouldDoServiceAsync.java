@@ -21,7 +21,7 @@ public interface CouldDoServiceAsync {
 
 	void createUser(User u, AsyncCallback<User> callback);
 
-	void createUser(String emailAdress, String userName, AsyncCallback<User> callback);
+    void createsUser(String emailAdress, String userName, AsyncCallback<User> callback);
 
 	void deleteUser(User u, AsyncCallback<Void> callback);
 
@@ -42,7 +42,7 @@ public interface CouldDoServiceAsync {
 
 	void deleteCategory(Category c, AsyncCallback<Void> callback);
 
-	void getCategoryById(int catId, AsyncCallback<Category> callback);
+	void getCategoryByUserId(int ownerId, AsyncCallback<Vector<Category>> callback);
 
 	void findAllCategories(AsyncCallback<Vector<Category>> callback);
 	
@@ -59,7 +59,7 @@ public interface CouldDoServiceAsync {
 
 	void findAllNotes(AsyncCallback<Vector<Notes>> callback);
 
-	void findAllNotesByUserIdAndCatId(int ownerId, int catId, AsyncCallback<Vector<Notes>> callback);
+	void findAllNotesByUserIdAndCatVector(int ownerId, Vector<Category> cat, AsyncCallback<Vector<Notes>> callback);
 	
 	
 	// LISTS
@@ -74,7 +74,7 @@ public interface CouldDoServiceAsync {
 
 	void findAllLists(AsyncCallback<Vector<Lists>> callback);
 
-	void findAllListsByUserIdAndCatId(int ownerId, int catId, AsyncCallback<Vector<Lists>> callback);
+	void findAllListsByUserIdAndCatVector(int ownerId, Vector<Category> cat, AsyncCallback<Vector<Lists>> callback);
 	
 
 	
