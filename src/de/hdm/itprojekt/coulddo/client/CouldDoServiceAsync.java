@@ -59,7 +59,7 @@ public interface CouldDoServiceAsync {
 
 	void findAllNotes(AsyncCallback<Vector<Notes>> callback);
 
-	void findAllNotesByUserIdAndCatId(int ownerId, int catId, AsyncCallback<Vector<Notes>> callback);
+	void findAllNotesByUserIdAndCatVector(int ownerId, Vector<Category> cat, AsyncCallback<Vector<Notes>> callback);
 	
 	
 	// LISTS
@@ -74,7 +74,7 @@ public interface CouldDoServiceAsync {
 
 	void findAllLists(AsyncCallback<Vector<Lists>> callback);
 
-	void findAllListsByUserIdAndCatId(int ownerId, int catId, AsyncCallback<Vector<Lists>> callback);
+	void findAllListsByUserIdAndCatVector(int ownerId, Vector<Category> cat, AsyncCallback<Vector<Lists>> callback);
 	
 
 	

@@ -61,7 +61,7 @@ public interface CouldDoService extends RemoteService {
 	
 	public Vector<Notes> findAllNotes() throws IllegalArgumentException, DatabaseException;
 	
-	public Vector<Notes> findAllNotesByUserIdAndCatId(int ownerId, int catId) throws IllegalArgumentException, DatabaseException;
+	public Vector<Notes> findAllNotesByUserIdAndCatVector(int ownerId, Vector<Category> cat) throws IllegalArgumentException, DatabaseException;
 	
 	
 	// LISTS
@@ -76,7 +76,7 @@ public interface CouldDoService extends RemoteService {
 	
 	public Vector<Lists> findAllLists() throws IllegalArgumentException, DatabaseException;
 	
-	public Vector<Lists> findAllListsByUserIdAndCatId(int ownerId, int catId) throws IllegalArgumentException, DatabaseException;
+	public Vector<Lists> findAllListsByUserIdAndCatVector(int ownerId, Vector<Category> cat) throws IllegalArgumentException, DatabaseException;
 	
 }
 

@@ -50,8 +50,9 @@ public class CouldDo implements EntryPoint {
 	 */
 	public void onModuleLoad() {
 		
-		user.setUsername("Juls");
-		user.setEmail("juls@test.de");
+		user.setUsername("Julian");
+		user.setEmail("juls@mail.de");
+		user.setId(3);
 		// RegistryForm registryForm = new RegistryForm();
  		// RootPanel.get("content").clear();
  		// RootPanel.get("content").add(registryForm);

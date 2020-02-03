@@ -41,8 +41,8 @@ public class Category extends BusinessObject implements IsSerializable {
 		this.ownerId = ownerId;
 	}
 
-	public int getId() {
-		return this.id;
-	}
+//	public int getId() {
+//		return this.id;
+//	}
 	
 }

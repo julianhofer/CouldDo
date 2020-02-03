@@ -131,15 +131,25 @@ body {
 	padding: 2px;
 }
 
-.tree-group {
+.tree-cat {
 	font-size: 1.5em;
 	font-weight: bold;
 }
 
-.tree-new-group {
+.tree-new-cat {
 	font-size: 1.5em;
 	color: rgb(150, 150, 150) !important;
 	font-weight: bold;
+	font-style: italic;
+}
+
+.tree {
+	font-size: 1.2em;
+}
+
+.tree-new-entry {
+	font-size: 1.2em;
+	color: rgb(150, 150, 150) !important;
 	font-style: italic;
 }
 

@@ -11,6 +11,7 @@ public class Lists extends BusinessObject implements Serializable{
 	private int ownerId = 0;
 	private int catId = 0;
 	private String listName;
+	private String categoryName;
 	
 	
 	public Lists() {
@@ -51,6 +52,14 @@ public class Lists extends BusinessObject implements Serializable{
 
 	public void setCatId(int catId) {
 		this.catId = catId;
+	}
+	
+	public String getCatagoryName() {
+		return categoryName;
+	}
+	
+	public void setCategoryName(String categoryName) {
+		this.categoryName = categoryName;
 	}
 
 	

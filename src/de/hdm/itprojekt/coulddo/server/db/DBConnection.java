@@ -12,17 +12,16 @@ public class DBConnection {
 	private static String pass = "gNRkUYeeLY8BA4Pq";
 
 	public static Connection connection() {
+		
 		if (con == null) {
-			String url = null;
 
 			try {
 				Class.forName(driver);
 			} catch (ClassNotFoundException e3) {
 				e3.printStackTrace();
 			}
-			try {
-				url = dburl;
-				con = DriverManager.getConnection(url + db, user, pass);
+			try {		
+				con = DriverManager.getConnection(dburl + db, user, pass);
 				System.out.println("MySql connected");
 			} catch (SQLException e4) {
 				System.err.println("Mysql Connection Error: ");

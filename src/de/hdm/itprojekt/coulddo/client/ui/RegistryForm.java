@@ -123,11 +123,14 @@ public class RegistryForm extends VerticalPanel {
 	};
 	
 	public void loadPage(User user) {		
-		
+		HeaderForm header = new HeaderForm();
 		ContentForm contentForm = new ContentForm(user);
 		contentForm.addStyleName("navigation");
 		contentForm.setHeight("100%");
 		navigationPanel.add(contentForm);
+		
+		RootPanel.get("header").clear();
+		RootPanel.get("header").add(header);
 		
 		RootPanel.get("navigation").clear();
 		RootPanel.get("navigation").add(navigationPanel);

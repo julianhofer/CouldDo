@@ -34,7 +34,7 @@ public class ListsMapper {
 
 		String maxId = "SELECT MAX(listId) AS maxid FROM lists";
 
-		String insert = "INSERT INTO lists (listId, listName, entry, ownerId, catId) VALUES (?,?,?,?,?)";
+		String insert = "INSERT INTO lists (listId, listName, entry, ownerId, catId, categoryName) VALUES (?,?,?,?,?,?)";
 
 		try {
 			con = DBConnection.connection();
@@ -52,6 +52,7 @@ public class ListsMapper {
 			stmt.setString(3, list.getLists());
 			stmt.setInt(4, list.getOwnerId());
 			stmt.setInt(5, list.getCatId());
+			stmt.setString(6, list.getCatagoryName());
 
 			stmt.executeUpdate();
 
@@ -152,7 +153,7 @@ public class ListsMapper {
 		PreparedStatement stmt = null;
 
 		// SQL-Anweisung zum auslesen der Tupel aus der DB
-		String selectByKey = "SELECT * FROM lists WHERE ownerId= " + ownerId + "AND catId= " + catId;
+		String selectByKey = "SELECT * FROM lists WHERE ownerId= " + ownerId + " AND catId= " + catId;
 
 		Vector<Lists> lists = new Vector<Lists>();
 

@@ -61,14 +61,15 @@ public class CatMapper {
 		Connection con = null;
 		PreparedStatement stmt = null;
 
-		String updateSQL = "UPDATE categories SET categoryName=? WHERE catId=?";
+		String updateSQL = "UPDATE categories SET categoryName=?, ownerId=? WHERE catId=?";
 
 		try {
 			con = DBConnection.connection();
 			stmt = con.prepareStatement(updateSQL);
 
 			stmt.setString(1, category.getCategoryName());
-			stmt.setInt(2, category.getId());
+			stmt.setInt(2, category.getOwnerId());
+			stmt.setInt(3, category.getId());
 
 			stmt.executeUpdate();
 		} catch (SQLException e2) {
@@ -137,8 +138,9 @@ public class CatMapper {
 			
 			while (rs.next()) {
 				Category category = new Category();
-				category.setId(rs.getInt("ownerId"));
+				category.setId(rs.getInt("catId"));
 				category.setCategoryName(rs.getString("categoryName"));
+				category.setOwnerId(rs.getInt("ownerId"));
 				categories.addElement(category);
 			}
 		} catch (SQLException e2) {
