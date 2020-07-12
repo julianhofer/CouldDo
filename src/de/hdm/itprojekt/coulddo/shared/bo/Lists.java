@@ -1,15 +1,17 @@
 package de.hdm.itprojekt.coulddo.shared.bo;
 import java.io.Serializable;
 
+
+
 public class Lists extends BusinessObject implements Serializable{
 	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private String entry;
 	private int ownerId = 0;
 	private int catId = 0;
+	private int entryId = 0;
 	private String listName;
 	private String categoryName;
 	
@@ -18,9 +20,9 @@ public class Lists extends BusinessObject implements Serializable{
 		
 	}
 	
-	public Lists(String entry) {
-		this.entry = entry;
-	}
+//	public Lists(String entry) {
+//		this.entry = entry;
+//	}
 
 	public int getOwnerId() {
 		return ownerId;
@@ -30,13 +32,21 @@ public class Lists extends BusinessObject implements Serializable{
 		this.ownerId = ownerId;
 	}
 
-	public String getLists() {
-		return entry;
-	}
+//	public String getLists() {
+//		return entry;
+//	}
+//	
+//	public void setLists (String entry) {
+//		this.entry = entry;
+//	}
 	
-	public void setLists (String entry) {
-		this.entry = entry;
-	}
+//	public Array getAllEntries() {
+//		return entries;
+//	}
+//	
+//	public void setNewEntry (Array entries) {
+//		this.entries = entries;
+//	}
 
 	public String getListName() {
 		return listName;
@@ -60,6 +70,14 @@ public class Lists extends BusinessObject implements Serializable{
 	
 	public void setCategoryName(String categoryName) {
 		this.categoryName = categoryName;
+	}
+
+	public int getEntryId() {
+		return entryId;
+	}
+
+	public void setEntryId(int entryId) {
+		this.entryId = entryId;
 	}
 
 	

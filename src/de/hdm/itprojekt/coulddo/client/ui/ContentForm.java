@@ -20,6 +20,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import de.hdm.itprojekt.coulddo.client.ClientsideSettings;
 import de.hdm.itprojekt.coulddo.client.CouldDoServiceAsync;
 import de.hdm.itprojekt.coulddo.shared.bo.Category;
+import de.hdm.itprojekt.coulddo.shared.bo.Entries;
 import de.hdm.itprojekt.coulddo.shared.bo.Lists;
 import de.hdm.itprojekt.coulddo.shared.bo.Notes;
 import de.hdm.itprojekt.coulddo.shared.bo.User;
@@ -38,12 +39,12 @@ public class ContentForm extends VerticalPanel {
 	VerticalPanel catsPanel = new VerticalPanel();
 	VerticalPanel catBtnPanel = new VerticalPanel();
 	HorizontalPanel loadingPanel = new HorizontalPanel();
-	ScrollPanel scrollPanel = new ScrollPanel();
+	VerticalPanel scrollPanel = new VerticalPanel();
 	VerticalPanel navigation = new VerticalPanel();
 	HorizontalPanel outer = new HorizontalPanel();
 
 	// Labels
-	Label catLabel = new Label("Kategorien");
+	Label catLabel = new Label("CouldDo");
 
 	public ContentForm(User u) {
 		this.user = u;
@@ -64,9 +65,9 @@ public class ContentForm extends VerticalPanel {
 		navigation.setVerticalAlignment(ALIGN_TOP);
 		navigation.add(catLabel);
 		navigation.add(loadingPanel);
-		scrollPanel.setWidget(navigation);
+		// scrollPanel.setWidget(navigation);
 
-		this.add(scrollPanel);
+		this.add(navigation);
 
 		getCats(user);
 		GWT.log("angemeldeter User: " + user.getUsername() + " mit der Email " + user.getEmail());
@@ -88,8 +89,9 @@ public class ContentForm extends VerticalPanel {
 				allCats.clear();
 				allCats = cat;
 				getNotes(user, allCats);
-				getLists(user, allCats);
 				GWT.log("Erste Kategorie des User: " + allCats.get(1).getCategoryName());
+				getLists(user, allCats);
+				
 			}
 		});
 		
@@ -233,11 +235,10 @@ public class ContentForm extends VerticalPanel {
 		}
 
 		public void onClick(ClickEvent arg0) {
-			// outer.clear();
-			// outer.add(new ShoppingListForm(user, selection, category));
-			// RootPanel.get("content").clear();
-			// RootPanel.get("content").add(outer);
-			Window.alert("edit Note Clickhandler");
+			 outer.clear();
+			 outer.add(new NoteForm(user, selection, category));
+			 RootPanel.get("content").clear();
+			 RootPanel.get("content").add(outer);
 		}
 
 	}
@@ -246,17 +247,16 @@ public class ContentForm extends VerticalPanel {
 		final Lists selection;
 		final Category category;
 
-		public ListClickHandler(Lists list, Category cat) {
-			selection = list;
+		public ListClickHandler(Lists lists, Category cat) {
+			selection = lists;
 			category = cat;
 		}
 
 		public void onClick(ClickEvent arg0) {
-			// outer.clear();
-			// outer.add(new ShoppingListForm(user, selection, category));
-			// RootPanel.get("content").clear();
-			// RootPanel.get("content").add(outer);
-			Window.alert("edit List Clickhandler");
+			 outer.clear();
+			 outer.add(new ListForm(user, selection, category));
+			 RootPanel.get("content").clear();
+			 RootPanel.get("content").add(outer);
 		}
 
 	}
@@ -308,11 +308,14 @@ public class ContentForm extends VerticalPanel {
 
 		public void onClick(ClickEvent arg0) {
 			Lists newList = new Lists();
+			Entries emptyEntry = new Entries();
+//			emptyEntry.setListId(newList.getId());
+			emptyEntry.setEntry("1. Eintrag");
 			newList.setListName("Neue Liste");
 			newList.setOwnerId(user.getId());
 			newList.setCatId(category.getId());
 			newList.setCategoryName(category.getCategoryName());
-			couldDoService.createList(newList, new AsyncCallback<Lists>() {
+			couldDoService.createList(newList, emptyEntry, new AsyncCallback<Lists>() {
 
 				public void onFailure(Throwable arg0) {
 

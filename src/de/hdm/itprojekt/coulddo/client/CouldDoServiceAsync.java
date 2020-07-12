@@ -5,6 +5,7 @@ import java.util.Vector;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import de.hdm.itprojekt.coulddo.shared.bo.Category;
+import de.hdm.itprojekt.coulddo.shared.bo.Entries;
 import de.hdm.itprojekt.coulddo.shared.bo.Lists;
 import de.hdm.itprojekt.coulddo.shared.bo.Notes;
 import de.hdm.itprojekt.coulddo.shared.bo.User;
@@ -64,7 +65,7 @@ public interface CouldDoServiceAsync {
 	
 	// LISTS
 
-	void createList(Lists l, AsyncCallback<Lists> callback);
+	void createList(Lists l, Entries en, AsyncCallback<Lists> callback);
 
 	void saveList(Lists l, AsyncCallback<Lists> callback);
 
@@ -76,6 +77,6 @@ public interface CouldDoServiceAsync {
 
 	void findAllListsByUserIdAndCatVector(int ownerId, Vector<Category> cat, AsyncCallback<Vector<Lists>> callback);
 	
-
+	void findAllEntriesByListId(int listId, AsyncCallback<Vector<Entries>> callback);
 	
 }

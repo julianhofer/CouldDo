@@ -7,6 +7,7 @@ import de.hdm.itprojekt.coulddo.server.db.NotesMapper;
 import de.hdm.itprojekt.coulddo.server.db.UserMapper;
 import de.hdm.itprojekt.coulddo.shared.DatabaseException;
 import de.hdm.itprojekt.coulddo.shared.bo.Category;
+import de.hdm.itprojekt.coulddo.shared.bo.Entries;
 import de.hdm.itprojekt.coulddo.shared.bo.Lists;
 import de.hdm.itprojekt.coulddo.shared.bo.Notes;
 import de.hdm.itprojekt.coulddo.shared.bo.User;
@@ -24,7 +25,6 @@ public class CouldDoServiceImpl extends RemoteServiceServlet implements CouldDoS
 	public CouldDoServiceImpl() throws IllegalArgumentException {
 
 	}
-
 
 	/**
 	 * Serialisierung
@@ -312,7 +312,8 @@ public class CouldDoServiceImpl extends RemoteServiceServlet implements CouldDoS
 	 * e.printStackTrace(); throw new IllegalArgumentException(e); } }
 	 */
 
-	public Vector<Notes> findAllNotesByUserIdAndCatVector(int ownerId, Vector<Category> cat) throws IllegalArgumentException {
+	public Vector<Notes> findAllNotesByUserIdAndCatVector(int ownerId, Vector<Category> cat)
+			throws IllegalArgumentException {
 		try {
 			Vector<Notes> tempNotes = new Vector<Notes>();
 			for (int i = 0; i < cat.size(); i++) {
@@ -329,11 +330,12 @@ public class CouldDoServiceImpl extends RemoteServiceServlet implements CouldDoS
 	/**
 	 * LISTS
 	 */
+	
 
-	public Lists createList(Lists l) throws IllegalArgumentException {
+	public Lists createList(Lists l, Entries en) throws IllegalArgumentException {
 		try {
 
-			return this.listsMapper.insert(l);
+			return this.listsMapper.insert(l, en);
 
 		} catch (IllegalArgumentException | DatabaseException e) {
 			e.printStackTrace();
@@ -401,7 +403,8 @@ public class CouldDoServiceImpl extends RemoteServiceServlet implements CouldDoS
 	 * e.printStackTrace(); throw new IllegalArgumentException(e); } }
 	 */
 
-	public Vector<Lists> findAllListsByUserIdAndCatVector(int ownerId, Vector<Category> cat) throws IllegalArgumentException {
+	public Vector<Lists> findAllListsByUserIdAndCatVector(int ownerId, Vector<Category> cat)
+			throws IllegalArgumentException {
 		try {
 			Vector<Lists> tempLists = new Vector<Lists>();
 			for (int i = 0; i < cat.size(); i++) {
@@ -414,7 +417,21 @@ public class CouldDoServiceImpl extends RemoteServiceServlet implements CouldDoS
 			throw new IllegalArgumentException(e);
 		}
 	}
+	
+	public Vector<Entries> findAllEntriesByListId(int listId)
+			throws IllegalArgumentException {
+		try {
+			Vector<Entries> tempEntries = new Vector<Entries>();
+		
+				tempEntries.addAll(listsMapper.findAllEntriesByListId(listId));
+			
+			return tempEntries;
 
+		} catch (IllegalArgumentException | DatabaseException e) {
+			e.printStackTrace();
+			throw new IllegalArgumentException(e);
+		}
+	}
 
 
 }

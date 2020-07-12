@@ -8,6 +8,7 @@ import java.sql.Statement;
 import java.util.Vector;
 
 import de.hdm.itprojekt.coulddo.shared.DatabaseException;
+import de.hdm.itprojekt.coulddo.shared.bo.Entries;
 import de.hdm.itprojekt.coulddo.shared.bo.Lists;
 
 
@@ -28,14 +29,14 @@ public class ListsMapper {
 		return listsMapper;
 	}
 
-	public Lists insert(Lists list) throws DatabaseException {
+	public Lists insert(Lists list, Entries entry) throws DatabaseException {
 		Connection con = null;
 		PreparedStatement stmt = null;
 
 		String maxId = "SELECT MAX(listId) AS maxid FROM lists";
 
-		String insert = "INSERT INTO lists (listId, listName, entry, ownerId, catId, categoryName) VALUES (?,?,?,?,?,?)";
-
+		String insert = "INSERT INTO lists (listId, listName, ownerId, catId, categoryName) VALUES (?,?,?,?,?)";
+//		String insert = "INSERT (list.listId, list.listName, list.ownerId, list.catId, list.categoryName, entries.id, entries.value, entries.listId) VALUES (?,?,?,?,?,?,?,?)";
 		try {
 			con = DBConnection.connection();
 			stmt = con.prepareStatement(maxId);
@@ -49,10 +50,12 @@ public class ListsMapper {
 
 			stmt.setInt(1, list.getId());
 			stmt.setString(2, list.getListName());
-			stmt.setString(3, list.getLists());
-			stmt.setInt(4, list.getOwnerId());
-			stmt.setInt(5, list.getCatId());
-			stmt.setString(6, list.getCatagoryName());
+			stmt.setInt(3, list.getOwnerId());
+			stmt.setInt(4, list.getCatId());
+			stmt.setString(5, list.getCatagoryName());
+//			stmt.setInt(6, entry.getId());
+//			stmt.setString(7, entry.getEntry());
+//			stmt.setInt(6, list.getId());
 
 			stmt.executeUpdate();
 
@@ -66,7 +69,7 @@ public class ListsMapper {
 		Connection con = null;
 		PreparedStatement stmt = null;
 
-		String updateSQL = "UPDATE lists SET listName=?, catId=?, entry=? WHERE listId=?";
+		String updateSQL = "UPDATE lists SET listName=?, catId=? WHERE listId=?";
 
 		try {
 			con = DBConnection.connection();
@@ -74,8 +77,7 @@ public class ListsMapper {
 
 			stmt.setString(1, list.getListName());
 			stmt.setInt(2, list.getCatId());
-			stmt.setString(3, list.getLists());
-			stmt.setInt(4, list.getId());
+			stmt.setInt(3, list.getId());
 
 			stmt.executeUpdate();
 			return list;
@@ -110,7 +112,6 @@ public class ListsMapper {
 				Lists list = new Lists();
 				list.setId(rs.getInt("listId"));
 				list.setListName(rs.getString("listName"));
-				list.setLists(rs.getString("entry"));
 				list.setOwnerId(rs.getInt("ownerId"));
 				list.setCatId(rs.getInt("catId"));
 				return list;
@@ -136,7 +137,6 @@ public class ListsMapper {
 				Lists l = new Lists();
 				l.setId(rs.getInt("listId"));
 				l.setListName(rs.getString("listName"));
-				l.setLists(rs.getString("entry"));
 				l.setOwnerId(rs.getInt("ownerId"));
 				l.setCatId(rs.getInt("catId"));
 				
@@ -167,7 +167,6 @@ public class ListsMapper {
 				Lists l = new Lists();
 				l.setId(rs.getInt("listId"));
 				l.setListName(rs.getString("listName"));
-				l.setLists(rs.getString("entry"));
 				l.setOwnerId(rs.getInt("ownerId"));
 				l.setCatId(rs.getInt("catId"));
 				lists.addElement(l);
@@ -177,6 +176,35 @@ public class ListsMapper {
 		}
 		return lists;
 	}
+	
+	public Vector<Entries> findAllEntriesByListId(int listId) throws DatabaseException {
+		Connection con = null;
+		PreparedStatement stmt = null;
+
+		// SQL-Anweisung zum auslesen der Tupel aus der DB
+		String selectByKey = "SELECT * FROM entries WHERE listId= " + listId;
+
+		Vector<Entries> entries = new Vector<Entries>();
+
+		try {
+			con = DBConnection.connection();
+			stmt = con.prepareStatement(selectByKey);
+
+			ResultSet rs = stmt.executeQuery();
+
+			while (rs.next()) {
+				Entries en = new Entries();
+				en.setId(rs.getInt("entryId"));
+				en.setEntry(rs.getString("value"));
+				en.setListId(rs.getInt("listId"));
+				entries.addElement(en);
+			}
+		} catch (SQLException e2) {
+			throw new DatabaseException(e2);
+		}
+		return entries;
+	}
+	
 	
 
 }
